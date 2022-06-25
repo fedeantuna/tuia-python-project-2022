@@ -1,5 +1,5 @@
 import csv
-
+from functions import average
 
 #---------------- Average Price and Rating by Neighbourhood -----------------------
 
@@ -75,15 +75,16 @@ with open(path + 'listings.csv', encoding="utf8") as File:
 
 
 
+
 for neigh in data:
     for roomT in data[neigh]:
-        priceAv = round(data[neigh][roomT][0] / data[neigh][roomT][1] , 2 ) # Average for prices
+        priceAv = average(data[neigh][roomT][0] , data[neigh][roomT][1]) # Average for prices
         if data[neigh][roomT][3] != 0:
-            ratingAv = round(data[neigh][roomT][2] / data[neigh][roomT][3] , 2 ) # Average for ratings
+            ratingAv = average(data[neigh][roomT][2] , data[neigh][roomT][3]) # Average for ratings
         else:
             ratingAv = ''
 #           ratingAv = 0
         data[neigh][roomT] = [ priceAv , ratingAv ]
 
 
-#print(data)
+print(data)
