@@ -1,41 +1,12 @@
 import csv
 from functions import average
 
-#---------------- Average Price and Rating by Neighbourhood -----------------------
 
-'''
-Data structure to read:
-variable = {"neighbourhood 1" : { "room type 1" : [price addition, price counter, rating addition, rating counter];
-                                  "room type 2" : [price addition, price counter, rating addition, rating counter];
-                                  "room type 3" : [price addition, price counter, rating addition, rating counter] };
-            "neighbourhood 2" : { "room type 1" : [price addition, price counter, rating addition, rating counter];
-                                  "room type 2" : [price addition, price counter, rating addition, rating counter];
-                                  "room type 3" : [price addition, price counter, rating addition, rating counter] };
-            .
-            .
-            .
-
-            }
-
-Data structure procesed:
-variable = {"neighbourhood 1" : { "room type 1" : [Price average, Rating average];
-                                  "room type 2" : [Price average, Rating average];
-                                  "room type 3" : [Price average, Rating average] };
-            "neighbourhood 2" : { "room type 1" : [Price average, Rating average];
-                                  "room type 2" : [Price average, Rating average];
-                                  "room type 3" : [Price average, Rating average] };
-            .
-            .
-            .
-
-            }
-'''
-
-path = '../' # File's path
+path = './' # File's path
 data = {} # Main variable
 firstIteration = True #First iteration check variable
 
-with open(path + 'listings.csv', encoding="utf8") as File:
+with open(path + 'listings.csv', encoding='utf8') as File:
     reader = csv.reader(File, delimiter=',') 
     for row in reader:
         if firstIteration:
