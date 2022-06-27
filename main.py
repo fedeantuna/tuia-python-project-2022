@@ -1,73 +1,85 @@
-from asyncore import read
-import csv
+import csv, gzip
 from functions import average
 
-path = './' # File's path
-data = {} # Main variable
-firstIteration = True #First iteration check variable
-c_data = {}
-with open(path + 'calendar.csv', encoding='utf8') as Calendar:
-    reader = csv.reader(Calendar, delimiter=',')
-    for row in reader:
-        if firstIteration:
-            cListingIdIndex = row.index('listing_id')
-            cAvailableIndex = row.index('available')
-            firstIteration = False
-            continue
+calendar_file = './calendar.csv.gz'
+listings_file = './listings.csv.gz'
+
+calendar_data = {}
+
+with gzip.open(calendar_file, 'rt') as calendar:
+    calendar_reader = csv.reader(calendar, delimiter=',')
+
+    calendar_header = next(calendar_reader)
+    calendar_listing_id_index = calendar_header.index('listing_id')
+    calendar_available_index = calendar_header.index('available')
+
+    for row in calendar_reader:        
+        calendar_listing_id = row[calendar_listing_id_index]
+        calendar_available = row[calendar_available_index]
+
+        if calendar_listing_id not in calendar_data.keys():
+            calendar_data[calendar_listing_id] = 0
         
-        c_listing_id = row[cListingIdIndex]
-        c_available = row[cAvailableIndex]
+        if calendar_available == 'f':
+            calendar_data[calendar_listing_id] += 1
 
-        if c_listing_id not in c_data.keys():
-            c_data[c_listing_id] = 0
-        
-        if c_available == 'f':
-            c_data[c_listing_id] += 1
+data = {}
 
-firstIteration = True
+with gzip.open(listings_file, 'rt') as listings:
+    listings_reader = csv.reader(listings, delimiter=',')
 
-with open(path + 'listings.csv', encoding='utf8') as File:
-    reader = csv.reader(File, delimiter=',') 
-    for row in reader:
-        if firstIteration:
-            listingIdIndex = row.index('id')
-            priceIndex = row.index('price') # Get the price index
-            ratingIndex = row.index('review_scores_rating') # Get the rating index
-            neighIndex = row.index('neighbourhood') # Get the nighbourhood index
-            roomTypeIndex = row.index('room_type') # Get the room type index
-            firstIteration = False  # Not first iteration anymore
-            continue # Skip to the next iteration
-        
-        price = float(row[priceIndex][1:].replace(',','')) # Save the price value for this listing
-        if row[ratingIndex] != '':
-            rating = float(row[ratingIndex]) # Save the rating value for this listing
-        else:
+    listings_header = next(listings_reader)
+    listing_id_index = listings_header.index('id')
+    listing_price_index = listings_header.index('price')
+    listing_rating_index = listings_header.index('review_scores_rating')
+    listing_neighbourhood_index = listings_header.index('neighbourhood')
+    listing_room_type_index = listings_header.index('room_type')
+
+    for row in listings_reader:
+        listing_id = row[listing_id_index]
+        if listing_id not in calendar_data.keys():
             continue
-        neighbourhood = row[neighIndex] # Save the 'neighbourhood' value for this listing
-        roomType = row[roomTypeIndex] # Save the 'room type' value for this listing
-        listingId = row[listingIdIndex]
-        if listingId not in c_data.keys():
+
+        rating = row[listing_rating_index]
+        if rating == '':
             continue
-        occupied = c_data[listingId] / 365
 
-        if neighbourhood in data.keys():
-            if roomType in data[neighbourhood].keys():
-                data[neighbourhood][roomType][0] += price # Add this listing price to total
-                data[neighbourhood][roomType][1] += 1 #Add 1 to price counter
-                data[neighbourhood][roomType][2] += rating # Add this listing rating to total
-                data[neighbourhood][roomType][3] += occupied
-            else:
-                data[neighbourhood][roomType] = [ price, 1 , rating, occupied ] # Create a data list for new room type
-        else:
-            data[neighbourhood] = {roomType : [ price, 1 , rating, occupied ]} # Create a data list for new neighbourhood
+        price = float(row[listing_price_index][1:].replace(',',''))
+        rating = float(rating)
+        neighbourhood = row[listing_neighbourhood_index]
+        room_type = row[listing_room_type_index]
+        occupancy_percentage = calendar_data[listing_id] / 365
+
+        if neighbourhood not in data.keys():
+            data[neighbourhood] = {
+                room_type: {
+                    'occupancy_percentage_sum': 0,
+                    'price_sum': 0,
+                    'rating_sum': 0,
+                    'counter': 0
+                }
+            }
+        
+        if room_type not in data[neighbourhood].keys():
+            data[neighbourhood][room_type] = {
+                'occupancy_percentage_sum': 0,
+                'price_sum': 0,
+                'rating_sum': 0,
+                'counter': 0
+            }
+
+        data[neighbourhood][room_type]['occupancy_percentage_sum'] += occupancy_percentage
+        data[neighbourhood][room_type]['price_sum'] += price
+        data[neighbourhood][room_type]['rating_sum'] += rating
+        data[neighbourhood][room_type]['counter'] += 1
 
 
-for neigh in data:
-    for roomT in data[neigh]:
-        priceAv = average(data[neigh][roomT][0] , data[neigh][roomT][1]) # Average for prices
-        ratingAv = average(data[neigh][roomT][2] , data[neigh][roomT][1]) # Average for ratings
-        occupiedAv = average(data[neigh][roomT][3] * 100, data[neigh][roomT][1])
-        data[neigh][roomT] = [ priceAv , ratingAv, occupiedAv ]
+for neighborhood in data:
+    for room_type in data[neighborhood]:
+        average_price = average(data[neighborhood][room_type]['price_sum'] , data[neighborhood][room_type]['counter'])
+        average_rating = average(data[neighborhood][room_type]['rating_sum'] , data[neighborhood][room_type]['counter'])
+        average_occupancy = average(data[neighborhood][room_type]['occupancy_percentage_sum'] * 100, data[neighborhood][room_type]['counter'])
+        data[neighborhood][room_type] = [ average_price , average_rating, average_occupancy ]
 
 
 print(data)
