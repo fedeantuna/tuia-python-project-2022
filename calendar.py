@@ -2,7 +2,6 @@ import csv, gzip
 
 _file_path = './calendar.csv.gz'
 
-
 def get_calendar_data():
     data = {}
     with gzip.open(_file_path, 'rt') as file:
