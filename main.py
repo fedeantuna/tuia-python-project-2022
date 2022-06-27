@@ -18,14 +18,14 @@ for neighborhood in listings_data:
         occupancy_percentage_sum = listings_data[neighborhood][room_type]['occupancy_percentage_sum'] * 100
         counter = listings_data[neighborhood][room_type]['counter']
 
+        average_occupancy = average(occupancy_percentage_sum, counter)
         average_price = average(price_sum, counter)
         average_rating = average(rating_sum, counter)
-        average_occupancy = average(occupancy_percentage_sum, counter)
 
-        data[neighborhood][room_type] = [
-            average_price,
-            average_rating,
-            average_occupancy
-        ]
+        data[neighborhood][room_type] = {
+            'average_occupancy': average_occupancy,
+            'average_price': average_price,
+            'average_rating': average_rating
+        }
 
 print(data)
