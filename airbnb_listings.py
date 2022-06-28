@@ -1,12 +1,13 @@
 import csv, gzip
-from enum import Enum
+
 
 _file_path = './listings.csv.gz'
 
 def get_listings_data(calendar_data):
     data = {}
-    with gzip.open(_file_path, 'rt') as listings:
+    with gzip.open(_file_path, 'rt', encoding='utf-8') as listings:
         listings_reader = csv.reader(listings, delimiter=',')
+        
 
         listings_header = next(listings_reader)
         listing_id_index = listings_header.index('id')
