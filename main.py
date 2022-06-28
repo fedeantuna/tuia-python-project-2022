@@ -3,14 +3,29 @@ from functions import average
 from listings import get_listings_data
 
 calendar_data = get_calendar_data()
+listings_data = get_listings_data(calendar_data)
 
-data = get_listings_data(calendar_data)
+data = {}
 
-for neighborhood in data:
-    for room_type in data[neighborhood]:
-        average_price = average(data[neighborhood][room_type]['price_sum'] , data[neighborhood][room_type]['counter'])
-        average_rating = average(data[neighborhood][room_type]['rating_sum'] , data[neighborhood][room_type]['counter'])
-        average_occupancy = average(data[neighborhood][room_type]['occupancy_percentage_sum'] * 100, data[neighborhood][room_type]['counter'])
-        data[neighborhood][room_type] = [ average_price , average_rating, average_occupancy ]
+for neighborhood in listings_data:
+    data[neighborhood] = {}
+
+    for room_type in listings_data[neighborhood]:
+        data[neighborhood][room_type] = {}
+
+        price_sum = listings_data[neighborhood][room_type]['price_sum']
+        rating_sum = listings_data[neighborhood][room_type]['rating_sum']
+        occupancy_percentage_sum = listings_data[neighborhood][room_type]['occupancy_percentage_sum'] * 100
+        counter = listings_data[neighborhood][room_type]['counter']
+
+        average_occupancy = average(occupancy_percentage_sum, counter)
+        average_price = average(price_sum, counter)
+        average_rating = average(rating_sum, counter)
+
+        data[neighborhood][room_type] = {
+            'average_occupancy': average_occupancy,
+            'average_price': average_price,
+            'average_rating': average_rating
+        }
 
 print(data)
