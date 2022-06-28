@@ -1,6 +1,6 @@
-from calendar import get_calendar_data
+from airbnb_calendar import get_calendar_data
 from functions import average
-from listings import get_listings_data
+from airbnb_listings import get_listings_data
 
 calendar_data = get_calendar_data()
 listings_data = get_listings_data(calendar_data)
