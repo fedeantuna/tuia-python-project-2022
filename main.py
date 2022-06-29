@@ -59,7 +59,7 @@ def main():
 
     ax.set_xticks(x, neighbourhoods)
     ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-    ax.set_title('Average Price per Neighborhood per Room Type', fontsize = 16)
+    ax.set_title('Average Price per Neighborhood per Room Type', fontsize = 14)
     plt.xticks(rotation = 90, fontsize = 10)
     plt.yticks(fontsize = 10)
     plt.xlabel('Neighbourhoods', fontsize = 12)
