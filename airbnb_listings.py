@@ -7,13 +7,13 @@ def get_listings_data(calendar_data):
     data = {}
     with gzip.open(_file_path, 'rt', encoding='utf-8') as listings:
         listings_reader = csv.reader(listings, delimiter=',')
-        
 
         listings_header = next(listings_reader)
+
         listing_id_index = listings_header.index('id')
         listing_price_index = listings_header.index('price')
         listing_rating_index = listings_header.index('review_scores_rating')
-        listing_neighbourhood_index = listings_header.index('neighbourhood')
+        listing_neighbourhood_index = listings_header.index('neighbourhood_cleansed')
         listing_room_type_index = listings_header.index('room_type')
 
         for row in listings_reader:
