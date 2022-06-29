@@ -8,7 +8,7 @@ from functions import average
 
 def main():
     (airbnb_data, neighbourhoods, room_types) = _read_airbnb_data()
-    normalized_room_types = []
+    normalized_room_types = {}
 
     for neighbourhood in neighbourhoods:
         for room_type in room_types:
@@ -33,8 +33,8 @@ def main():
                 average_rating = 0
             
             normalized_room_type = room_type.lower().replace(' ', '_').replace('/', '_')
-            if normalized_room_type not in normalized_room_types:
-                normalized_room_types.append(normalized_room_type)
+            if normalized_room_type not in normalized_room_types.keys():
+                normalized_room_types[normalized_room_type] = room_type
 
             if f'{normalized_room_type}_occupancy' not in locals():
                 locals()[f'{normalized_room_type}_occupancy'] = []
@@ -53,10 +53,8 @@ def main():
     width = 0.20
     relative_distances = _get_relative_distances(width, normalized_room_types)
     fig, ax = plt.subplots()
-    for normalized_room_type in normalized_room_types:
-        # ax.bar(locals()[f'{normalized_room_type}_occupancy'])
-        ax.bar(x + relative_distances[normalized_room_type], locals()[f'{normalized_room_type}_price'], width, label=f'{normalized_room_type}')
-        # print(locals()[f'{normalized_room_type}_rating'])
+    for normalized_room_type in normalized_room_types.keys():
+        ax.bar(x + relative_distances[normalized_room_type], locals()[f'{normalized_room_type}_price'], width, label=normalized_room_types[normalized_room_type])
 
     fig.tight_layout()
     ax.set_xticks(x, neighbourhoods)
