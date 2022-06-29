@@ -1,3 +1,4 @@
+from turtle import position
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
@@ -54,10 +55,10 @@ def main():
     relative_distances = _get_relative_distances(width, normalized_room_types)
     fig, ax = plt.subplots()
     for normalized_room_type in normalized_room_types.keys():
-        ax.bar(x + relative_distances[normalized_room_type], locals()[f'{normalized_room_type}_price'], width, label=normalized_room_types[normalized_room_type])
+        ax.bar(x + relative_distances[normalized_room_type], locals()[f'{normalized_room_type}_rating'], width, label=normalized_room_types[normalized_room_type])
 
     ax.set_xticks(x, neighbourhoods)
-    ax.legend()
+    ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     ax.set_title('Average Price per Neighborhood per Room Type', fontsize = 16)
     plt.xticks(rotation = 90, fontsize = 10)
     plt.yticks(fontsize = 10)
