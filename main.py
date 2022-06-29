@@ -1,3 +1,4 @@
+from cProfile import label
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
@@ -117,18 +118,41 @@ def _plot(neighbourhoods: List[str], room_types: List[str]):
     normalized_room_types = normalize_str_list(room_types)
     relative_distances = _get_relative_distances(width, normalized_room_types.keys())
 
-    fig, ax = plt.subplots()
+    fig, axs = plt.subplots(2, 2)
 
+    prices_per_neighbourhood = []
+    room_types_count = 0
+    
     for normalized_room_type in normalized_room_types.keys():
-        ax.bar(x + relative_distances[normalized_room_type], globals()[f'_{normalized_room_type}_rating'], width, label=normalized_room_types[normalized_room_type])
+        occupancies = globals()[f'_{normalized_room_type}_occupancy']
+        prices = globals()[f'_{normalized_room_type}_price']
+        ratings = globals()[f'_{normalized_room_type}_rating']
 
-    ax.set_title('Average Price per Neighborhood per Room Type', fontsize = 14)
-    ax.set_xticks(x, neighbourhoods)
-    plt.xticks(rotation = 90, fontsize = 10)
-    plt.yticks(fontsize = 10)
-    plt.xlabel('Neighbourhoods', fontsize = 12)
-    plt.ylabel('Average Price', fontsize = 12)
-    ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+        axs[0, 0].bar(x + relative_distances[normalized_room_type], occupancies, width, label=normalized_room_types[normalized_room_type])
+        axs[0, 1].bar(x + relative_distances[normalized_room_type], prices, width, label=normalized_room_types[normalized_room_type])
+        axs[1, 0].bar(x + relative_distances[normalized_room_type], ratings, width, label=normalized_room_types[normalized_room_type])
+
+        room_types_count += 1
+        for idx, price in enumerate(prices):
+            if len(prices_per_neighbourhood) != len(prices):
+                prices_per_neighbourhood.append(average(price, len(room_types)))
+            else:
+                prices_per_neighbourhood[idx] += average(price, len(room_types))
+    axs[1, 1].bar(x, prices_per_neighbourhood, width * 3, color = 'gray')
+
+    axs[0, 0].set_title('Average Occupancy / Neighborhood / Room Type', fontsize = 8)
+    axs[0, 0].get_xaxis().set_visible(False)
+
+    axs[0, 1].set_title('Average Price / Neighborhood / Room Type', fontsize = 8)
+    axs[0, 1].set_xticks(x, neighbourhoods, rotation = 90, fontsize = 8)
+    axs[0, 1].legend(loc='lower left', bbox_to_anchor=(1, 0.5), fontsize = 8)
+    axs[0, 1].get_xaxis().set_visible(False)
+
+    axs[1, 0].set_title('Average Rating / Neighborhood / Room Type', fontsize = 8)
+    axs[1, 0].set_xticks(x, neighbourhoods, rotation = 90, fontsize = 8)
+
+    axs[1, 1].set_title('Average Price / Neighborhood', fontsize = 8)
+    axs[1, 1].set_xticks(x, neighbourhoods, rotation = 90, fontsize = 8)
 
     fig.tight_layout()
 
@@ -152,7 +176,7 @@ def _get_relative_distances(width: float, bars: List[str]):
 
     positions = {}
 
-    for (idx, current_bar) in enumerate(bars):
+    for idx, current_bar in enumerate(bars):
         positions[current_bar] = (start + idx) * width
 
     return positions
