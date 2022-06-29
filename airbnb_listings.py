@@ -5,6 +5,8 @@ _file_path = './listings.csv.gz'
 
 def get_listings_data(calendar_data):
     data = {}
+    neighbourhoods = []
+    room_types = []
     with gzip.open(_file_path, 'rt', encoding='utf-8') as listings:
         listings_reader = csv.reader(listings, delimiter=',')
 
@@ -54,4 +56,9 @@ def get_listings_data(calendar_data):
             data[neighbourhood][room_type]['rating_sum'] += rating
             data[neighbourhood][room_type]['counter'] += 1
 
-    return data
+            if neighbourhood not in neighbourhoods:
+                neighbourhoods.append(neighbourhood)
+            if room_type not in room_types:
+                room_types.append(room_type)
+
+    return (data, neighbourhoods, room_types)
