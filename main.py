@@ -50,25 +50,33 @@ def main():
     sns.set()
 
     x = np.arange(len(neighbourhoods))
-    width = 0.35
-    i = -2
+    width = 0.20
+    relative_distances = _get_relative_distances(width, normalized_room_types)
     fig, ax = plt.subplots()
     for normalized_room_type in normalized_room_types:
-        if i == 0:
-            i = 1
         # ax.bar(locals()[f'{normalized_room_type}_occupancy'])
-        ax.bar(x + width/4, locals()[f'{normalized_room_type}_price'], width, label=f'{normalized_room_type}')
+        ax.bar(x + relative_distances[normalized_room_type], locals()[f'{normalized_room_type}_price'], width, label=f'{normalized_room_type}')
         # print(locals()[f'{normalized_room_type}_rating'])
 
-        i += 1
-        if i == 3:
-            i = -2
     fig.tight_layout()
     ax.set_xticks(x, neighbourhoods)
+    ax.legend()
     plt.show()
 
 def _read_airbnb_data():
     calendar_data = get_calendar_data()
     return get_listings_data(calendar_data)
+
+def _get_relative_distances(width, bars):
+    start = -0.5 * len(bars)
+
+    positions = {}
+
+    bar_counter = 0
+    for current_bar in bars:
+        positions[current_bar] = (start + bar_counter) * width
+        bar_counter += 1
+    
+    return positions
 
 main()
