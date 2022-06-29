@@ -1,8 +1,17 @@
 import csv, gzip
 
-_file_path = './calendar.csv.gz'
+_file_path = './files/calendar.csv.gz'
 
 def get_calendar_data() -> dict:
+    """
+    Reads the calendar file and processes it, obtaining only
+    the relevant information
+
+    Returns:
+        The information related to the occupancy of a listing in
+    Airbnb
+    """
+    
     data = {}
 
     with gzip.open(_file_path, 'rt', encoding='utf-8') as file:

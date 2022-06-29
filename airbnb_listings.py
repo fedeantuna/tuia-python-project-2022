@@ -1,9 +1,24 @@
 import csv, gzip
 from typing import Tuple
 
-_file_path = './listings.csv.gz'
+from functions import normalize_price
+
+_file_path = './files/listings.csv.gz'
 
 def get_listings_data(calendar_data: dict) -> Tuple[dict, list, list]:
+    """
+    Reads the listings file and processes it, obtaining only
+    the relevant information
+
+    If a listing doesn't have corresponding information for the occupancy, price
+    or rating it is not included
+
+    Returns:
+        The information related to the average occupancy, average price
+    and average rating of a listing in Airbnb organized by neighbourhood
+    and room type
+    """
+    
     data = {}
     neighbourhoods = []
     room_types = []
@@ -24,11 +39,15 @@ def get_listings_data(calendar_data: dict) -> Tuple[dict, list, list]:
             if listing_id not in calendar_data.keys():
                 continue
 
+            price = row[listing_price_index]
+            if price == '':
+                continue
+
             rating = row[listing_rating_index]
             if rating == '':
                 continue
-
-            price = float(row[listing_price_index][1:].replace(',',''))
+            
+            price = normalize_price(price)
             rating = float(rating)
             neighbourhood = row[listing_neighbourhood_index]
             room_type = row[listing_room_type_index]
