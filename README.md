@@ -16,7 +16,7 @@ Once the virtual environment is set up, activate it by running:
 
 `source venv/bin/activate` (on Unix-like systems)
 
-`.\venv\bin\Activate.ps1` (on Windows)
+`.\venv\Scripts\Activate.ps1` (on Windows)
 
 If successful, you should see a `(venv)` at the beginning of the prompt on your terminal.
 
@@ -35,52 +35,53 @@ The dependencies needed for this project are listed in `requirements.txt`, to in
 While in the virtual environment, run `python main.py` or `python3 main.py` depending on your system.
 
 # Data structure to read (JSON):
+
 ```
 {
     "neighbourhood 1": {
         "room type 1": {
             "availability addition": <number>,
             "price addition": <number>,
-            "rating addition": <number>, 
+            "rating addition": <number>,
             "counter": <number>
         },
 
         "room type 2": {
             "availability addition": <number>,
             "price addition": <number>,
-            "rating addition": <number>, 
+            "rating addition": <number>,
             "counter": <number>
         },
 
         "room type 3": {
             "availability addition": <number>,
             "price addition": <number>,
-            "rating addition": <number>, 
+            "rating addition": <number>,
             "counter": <number>
-        } 
+        }
     },
 
     "neighbourhood 2": {
         "room type 1": {
             "availability addition": <number>,
             "price addition": <number>,
-            "rating addition": <number>, 
+            "rating addition": <number>,
             "counter": <number>
         },
 
         "room type 2": {
             "availability addition": <number>,
             "price addition": <number>,
-            "rating addition": <number>, 
+            "rating addition": <number>,
             "counter": <number>
         },
 
         "room type 3": {
             "availability addition": <number>,
             "price addition": <number>,
-            "rating addition": <number>, 
+            "rating addition": <number>,
             "counter": <number>
-        } 
+        }
     },
 
     .
@@ -91,6 +92,7 @@ While in the virtual environment, run `python main.py` or `python3 main.py` depe
 ```
 
 # Data structure procesed (JSON):
+
 ```
 {
     "neighbourhood 1": {
@@ -126,7 +128,7 @@ While in the virtual environment, run `python main.py` or `python3 main.py` depe
             "Price average": <number>,
             "Rating average": <number>
         }
-    }       
+    }
     .
     .
     .
