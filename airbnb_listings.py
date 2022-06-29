@@ -1,11 +1,13 @@
 import csv, gzip
+from typing import Tuple
 
 _file_path = './listings.csv.gz'
 
-def get_listings_data(calendar_data):
+def get_listings_data(calendar_data: dict) -> Tuple[dict, list, list]:
     data = {}
     neighbourhoods = []
     room_types = []
+    
     with gzip.open(_file_path, 'rt', encoding='utf-8') as listings:
         listings_reader = csv.reader(listings, delimiter=',')
 
