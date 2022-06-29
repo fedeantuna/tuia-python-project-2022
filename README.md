@@ -14,7 +14,7 @@ Alternatively, if you have multiple versions of python installed is probably tha
 
 Once the virtual environment is set up, activate it by running:
 
-`source venv/bin/activate` (on Unix-like systems)
+`source venv/bin/activate` (on Linux/MacOS)
 
 `.\venv\Scripts\Activate.ps1` (on Windows)
 
