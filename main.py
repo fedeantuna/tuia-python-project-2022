@@ -56,9 +56,14 @@ def main():
     for normalized_room_type in normalized_room_types.keys():
         ax.bar(x + relative_distances[normalized_room_type], locals()[f'{normalized_room_type}_price'], width, label=normalized_room_types[normalized_room_type])
 
-    fig.tight_layout()
     ax.set_xticks(x, neighbourhoods)
     ax.legend()
+    ax.set_title('Average Price per Neighborhood per Room Type', fontsize = 16)
+    plt.xticks(rotation = 90, fontsize = 10)
+    plt.yticks(fontsize = 10)
+    plt.xlabel('Neighbourhoods', fontsize = 12)
+    plt.ylabel('Average Price', fontsize = 12)
+    fig.tight_layout()
     plt.show()
 
 def _read_airbnb_data():
