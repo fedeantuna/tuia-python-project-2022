@@ -72,10 +72,8 @@ def _get_relative_distances(width, bars):
 
     positions = {}
 
-    bar_counter = 0
-    for current_bar in bars:
-        positions[current_bar] = (start + bar_counter) * width
-        bar_counter += 1
+    for (idx, current_bar) in enumerate(bars):
+        positions[current_bar] = (start + idx) * width
     
     return positions
 
