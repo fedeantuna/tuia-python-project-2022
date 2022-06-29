@@ -1,7 +1,7 @@
-from typing import List, Tuple
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
+from typing import List, Tuple
 
 from airbnb_calendar import get_calendar_data
 from airbnb_listings import get_listings_data
