@@ -109,25 +109,29 @@ def _plot(neighbourhoods: List[str], room_types: List[str]):
         neighbourhoods: a list of the neighbourhoods
         room_types: a list of the room types
     """
-    
+
     sns.set()
 
-    normalized_room_types = normalize_str_list(room_types)
     x = np.arange(len(neighbourhoods))
     width = 0.20
+    normalized_room_types = normalize_str_list(room_types)
     relative_distances = _get_relative_distances(width, normalized_room_types.keys())
+
     fig, ax = plt.subplots()
+
     for normalized_room_type in normalized_room_types.keys():
         ax.bar(x + relative_distances[normalized_room_type], globals()[f'_{normalized_room_type}_rating'], width, label=normalized_room_types[normalized_room_type])
 
-    ax.set_xticks(x, neighbourhoods)
-    ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     ax.set_title('Average Price per Neighborhood per Room Type', fontsize = 14)
+    ax.set_xticks(x, neighbourhoods)
     plt.xticks(rotation = 90, fontsize = 10)
     plt.yticks(fontsize = 10)
     plt.xlabel('Neighbourhoods', fontsize = 12)
     plt.ylabel('Average Price', fontsize = 12)
+    ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+
     fig.tight_layout()
+    
     plt.show()
 
 def _get_relative_distances(width: float, bars: List[str]):
