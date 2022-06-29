@@ -1,6 +1,5 @@
 import csv, gzip
 
-
 _file_path = './listings.csv.gz'
 
 def get_listings_data(calendar_data):
