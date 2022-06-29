@@ -18,11 +18,11 @@ def get_listings_data(calendar_data: dict) -> Tuple[dict, list, list]:
     and average rating of a listing in Airbnb organized by neighbourhood
     and room type
     """
-    
+
     data = {}
     neighbourhoods = []
     room_types = []
-    
+
     with gzip.open(_file_path, 'rt', encoding='utf-8') as listings:
         listings_reader = csv.reader(listings, delimiter=',')
 
@@ -46,7 +46,7 @@ def get_listings_data(calendar_data: dict) -> Tuple[dict, list, list]:
             rating = row[listing_rating_index]
             if rating == '':
                 continue
-            
+
             price = normalize_price(price)
             rating = float(rating)
             neighbourhood = row[listing_neighbourhood_index]
@@ -62,7 +62,7 @@ def get_listings_data(calendar_data: dict) -> Tuple[dict, list, list]:
                         'counter': 0
                     }
                 }
-            
+
             if room_type not in data[neighbourhood].keys():
                 data[neighbourhood][room_type] = {
                     'occupancy_percentage_sum': 0,

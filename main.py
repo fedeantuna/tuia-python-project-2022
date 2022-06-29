@@ -44,7 +44,7 @@ def _filter_average_data_by_neighbourhood_by_room_type(data: dict, neighbourhood
         data: a dictionary representing the Airbnb data
         neighbourhood: a string representing the filtering neighbourhood
         room_type: a string representing the filtering room_type
-    
+
     Returns:
         The average average occupancy, average price and average rating
     for the given data filtered by neighbourhood and room type
@@ -60,7 +60,7 @@ def _filter_average_data_by_neighbourhood_by_room_type(data: dict, neighbourhood
         price_sum = 0
         rating_sum = 0
         counter = 0
-    
+
     if counter != 0:
         average_occupancy = average(occupancy_percentage_sum, counter)
         average_price = average(price_sum, counter)
@@ -95,7 +95,7 @@ def _generate_plot_data(room_type: str, average_occupancy: float, average_price:
         globals()[f'_{normalized_room_type}_price'] = []
     if f'_{normalized_room_type}_rating' not in globals():
         globals()[f'_{normalized_room_type}_rating'] = []
-    
+
     globals()[f'_{normalized_room_type}_occupancy'].append(average_occupancy)
     globals()[f'_{normalized_room_type}_price'].append(average_price)
     globals()[f'_{normalized_room_type}_rating'].append(average_rating)
@@ -131,7 +131,7 @@ def _plot(neighbourhoods: List[str], room_types: List[str]):
     ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 
     fig.tight_layout()
-    
+
     plt.show()
 
 def _get_relative_distances(width: float, bars: List[str]):
@@ -154,7 +154,7 @@ def _get_relative_distances(width: float, bars: List[str]):
 
     for (idx, current_bar) in enumerate(bars):
         positions[current_bar] = (start + idx) * width
-    
+
     return positions
 
 main()

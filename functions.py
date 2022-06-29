@@ -8,7 +8,7 @@ def average(summation: float, quantity: int) -> float:
     Arguments:
         summation: a float representing a summation
         quantity: a float representing a quantity
-    
+
     Returns:
         The average for a summation of a quantity of values
     """
@@ -23,7 +23,7 @@ def normalize_str(input: str) -> str:
 
     Arguments:
         input: a string representing the text that will be normalized
-    
+
     Returns:
         The normalized input
     """
@@ -37,7 +37,7 @@ def normalize_str_list(input: List[str]) -> dict:
 
     Arguments:
         input: a list containing the text items that will be normalized
-    
+
     Returns:
         The normalized input
     """
@@ -48,7 +48,7 @@ def normalize_str_list(input: List[str]) -> dict:
         normalized_room_type = normalize_str(input_item)
         if normalized_room_type not in normalized_input.keys():
             normalized_input[normalized_room_type] = input_item
-    
+
     return normalized_input
 
 def normalize_price(price: str) -> float:
@@ -58,7 +58,7 @@ def normalize_price(price: str) -> float:
 
     Arguments:
         price: a string representing the price that will be normalized
-    
+
     Returns:
         The normalized price
     """

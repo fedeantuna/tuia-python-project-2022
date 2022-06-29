@@ -11,7 +11,7 @@ def get_calendar_data() -> dict:
         The information related to the occupancy of a listing in
     Airbnb
     """
-    
+
     data = {}
 
     with gzip.open(_file_path, 'rt', encoding='utf-8') as file:
@@ -27,8 +27,8 @@ def get_calendar_data() -> dict:
 
             if listing_id not in data.keys():
                 data[listing_id] = 0
-            
+
             if available == 'f':
                 data[listing_id] += 1
-    
+
     return data
