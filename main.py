@@ -121,20 +121,20 @@ def _plot(neighbourhoods: List[str], room_types: List[str]):
     ax0 = axs[0].twinx()
     ax1 = axs[1].twinx()
 
-    arr = ['#449c0b', '#84206b', '#e55c30', '#f6d746']
-    i = 0
+    color_palette = iter(['#b30000', '#7c1158', '#4421af', '#1a53ff', '#0d88e6', '#00b7c7', '#5ad45a', '#8be04e', '#ebdc78'])
+
     for normalized_room_type in normalized_room_types.keys():
         occupancies = globals()[f'_{normalized_room_type}_occupancy']
         prices = globals()[f'_{normalized_room_type}_price']
         ratings = globals()[f'_{normalized_room_type}_rating']
 
-        axs[0].bar(x + relative_distances[normalized_room_type], occupancies, width, label=normalized_room_types[normalized_room_type], color = arr[i])
+        selected_color = next(color_palette)
+
+        axs[0].bar(x + relative_distances[normalized_room_type], occupancies, width, label=normalized_room_types[normalized_room_type], color = selected_color)
         ax0.scatter(x + relative_distances[normalized_room_type], prices, color = '#140b34', marker = 'd', linewidths = 1.5)
 
-        axs[1].bar(x + relative_distances[normalized_room_type], occupancies, width, label=normalized_room_types[normalized_room_type], color = arr[i])
+        axs[1].bar(x + relative_distances[normalized_room_type], occupancies, width, label=normalized_room_types[normalized_room_type], color = selected_color)
         ax1.scatter(x + relative_distances[normalized_room_type], ratings, color = '#140b34', marker = 'd', linewidths = 1.5)
-
-        i += 1
 
     axs[0].set_title('Occupancy', fontsize = 14)
     axs[0].set_xticks(x, neighbourhoods, rotation = 90, fontsize = 10)
