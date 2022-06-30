@@ -32,106 +32,144 @@ The dependencies needed for this project are listed in `requirements.txt`, to in
 
 ## Run
 
-While in the virtual environment, run `python main.py` or `python3 main.py` depending on your system.
+While in the virtual environment, run `python main.py` depending on your system.
 
 # Data structure to read (JSON):
 
-```
+```json
 {
-    "neighbourhood 1": {
-        "room type 1": {
-            "availability addition": <number>,
-            "price addition": <number>,
-            "rating addition": <number>,
+    "neighbourhood_1": {
+        "room_type_1": {
+            "availability_sum": <number>,
+            "price_sum": <number>,
+            "rating_sum": <number>,
             "counter": <number>
         },
-
-        "room type 2": {
-            "availability addition": <number>,
-            "price addition": <number>,
-            "rating addition": <number>,
+        "room_type_2": {
+            "availability_sum": <number>,
+            "price_sum": <number>,
+            "rating_sum": <number>,
             "counter": <number>
         },
-
-        "room type 3": {
-            "availability addition": <number>,
-            "price addition": <number>,
-            "rating addition": <number>,
+        "room_type_3": {
+            "availability_sum": <number>,
+            "price_sum": <number>,
+            "rating_sum": <number>,
             "counter": <number>
         }
     },
-
-    "neighbourhood 2": {
-        "room type 1": {
-            "availability addition": <number>,
-            "price addition": <number>,
-            "rating addition": <number>,
+    "neighbourhood_2": {
+        "room_type_1": {
+            "availability_sum": <number>,
+            "price_sum": <number>,
+            "rating_sum": <number>,
             "counter": <number>
         },
-
-        "room type 2": {
-            "availability addition": <number>,
-            "price addition": <number>,
-            "rating addition": <number>,
+        "room_type_2": {
+            "availability_sum": <number>,
+            "price_sum": <number>,
+            "rating_sum": <number>,
             "counter": <number>
         },
-
-        "room type 3": {
-            "availability addition": <number>,
-            "price addition": <number>,
-            "rating addition": <number>,
+        "room_type_3": {
+            "availability_sum": <number>,
+            "price_sum": <number>,
+            "rating_sum": <number>,
             "counter": <number>
         }
     },
-
     .
     .
     .
-
 }
 ```
 
 # Data structure procesed (JSON):
 
-```
+```json
 {
-    "neighbourhood 1": {
-        "room type 1": {
-            "Availability average": <number>,
-            "Price average": <number>,
-            "Rating average": <number>
-        },
-        "room type 2": {
-            "Availability average": <number>,
-            "Price average": <number>,
-            "Rating average": <number>
-        },
-        "room type 3": {
-            "Availability average": <number>,
-            "Price average": <number>,
-            "Rating average": <number>
-        }
-    }
-    "neighbourhood 2": {
-        "room type 1": {
-            "Availability average": <number>,
-            "Price average": <number>,
-            "Rating average": <number>
-        },
-        "room type 2": {
-            "Availability average": <number>,
-            "Price average": <number>,
-            "Rating average": <number>
-        },
-        "room type 3": {
-            "Availability average": <number>,
-            "Price average": <number>,
-            "Rating average": <number>
-        }
-    }
+    "neighbourhoods": [
+        "neighbourhood_1",
+        "neighbourhood_2",
+        "neighbourhood_3",
+        .
+        .
+        .
+    ],
+    "room_type_1_occupancy": [
+        <number>,
+        <number>,
+        <number>,
+        .
+        .
+        .
+    ],
+    "room_type_1_price": [
+        <number>,
+        <number>,
+        <number>,
+        .
+        .
+        .
+    ],
+    "room_type_1_rating": [
+        <number>,
+        <number>,
+        <number>,
+        .
+        .
+        .
+    ],
+    "room_type_2_occupancy": [
+        <number>,
+        <number>,
+        <number>,
+        .
+        .
+        .
+    ],
+    "room_type_2_price": [
+        <number>,
+        <number>,
+        <number>,
+        .
+        .
+        .
+    ],
+    "room_type_2_rating": [
+        <number>,
+        <number>,
+        <number>,
+        .
+        .
+        .
+    ],
+    "room_type_3_occupancy": [
+        <number>,
+        <number>,
+        <number>,
+        .
+        .
+        .
+    ],
+    "room_type_3_price": [
+        <number>,
+        <number>,
+        <number>,
+        .
+        .
+        .
+    ],
+    "room_type_3_rating": [
+        <number>,
+        <number>,
+        <number>,
+        .
+        .
+        .
+    ],
     .
     .
     .
-
 }
 ```

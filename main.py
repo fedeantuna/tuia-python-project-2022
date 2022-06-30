@@ -1,3 +1,4 @@
+from turtle import color
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
@@ -117,7 +118,7 @@ def _plot(neighbourhoods: List[str], room_types: List[str]):
     normalized_room_types = normalize_str_list(room_types)
     relative_distances = _get_relative_distances(width, normalized_room_types.keys())
 
-    fig, axs = plt.subplots(1, 2)
+    fig, axs = plt.subplots(2, 1)
     ax0 = axs[0].twinx()
     ax1 = axs[1].twinx()
 
@@ -135,12 +136,31 @@ def _plot(neighbourhoods: List[str], room_types: List[str]):
 
         axs[1].bar(x + relative_distances[normalized_room_type], occupancies, width, label=normalized_room_types[normalized_room_type], color = selected_color)
         ax1.scatter(x + relative_distances[normalized_room_type], ratings, color = '#140b34', marker = 'd', linewidths = 1.5)
+    
+    price_color = '#140b34'
+    for neighbourhood_idx in range(len(neighbourhoods)):
+        prices_per_room_type = []
+        ratings_per_room_type = []
+        for normalized_room_type in normalized_room_types.keys():
+            price = globals()[f'_{normalized_room_type}_price'][neighbourhood_idx]
+            prices_per_room_type.append(price if price is not np.nan else 0)
 
-    axs[0].set_title('Occupancy', fontsize = 14)
+            rating = globals()[f'_{normalized_room_type}_rating'][neighbourhood_idx]
+            ratings_per_room_type.append(rating if rating is not np.nan else 0)
+        
+        plot_relative_distances = []
+        for rd in relative_distances.values():
+            plot_relative_distances.append(x[neighbourhood_idx] + rd)
+    
+        ax0.plot(plot_relative_distances, prices_per_room_type, color = price_color)
+        ax1.plot(plot_relative_distances, ratings_per_room_type, color = price_color)
+
+
+    axs[0].set_title('Occupancy and Price', fontsize = 14)
     axs[0].set_xticks(x, neighbourhoods, rotation = 90, fontsize = 10)
     axs[0].legend(loc='upper left', fontsize = 10)
 
-    axs[1].set_title('Rating', fontsize = 14)
+    axs[1].set_title('Occupancy and Rating', fontsize = 14)
     axs[1].set_xticks(x, neighbourhoods, rotation = 90, fontsize = 10)
     axs[1].legend(loc='upper right', fontsize = 10)
 
