@@ -1,3 +1,4 @@
+from turtle import color
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
@@ -139,16 +140,22 @@ def _plot(neighbourhoods: List[str], room_types: List[str]):
                 prices_per_neighbourhood[idx] += average(price, len(room_types))
     axs[1, 1].bar(x, prices_per_neighbourhood, width * 3, color = 'gray')
 
-    axs[0, 0].set_title('Average Occupancy / Neighborhood / Room Type', fontsize = 8)
+    axs[0, 0].set_title('Occupancy', fontsize = 8)
     axs[0, 0].get_xaxis().set_visible(False)
+    ax0 = axs[0, 0].twinx()
+    ax0.plot(x, prices_per_neighbourhood, color='purple', linewidth=0.75)
 
-    axs[0, 1].set_title('Average Price / Neighborhood / Room Type', fontsize = 8)
+    axs[0, 1].set_title('Price', fontsize = 8)
     axs[0, 1].set_xticks(x, neighbourhoods, rotation = 90, fontsize = 8)
-    axs[0, 1].legend(loc='lower left', bbox_to_anchor=(1, 0.5), fontsize = 8)
     axs[0, 1].get_xaxis().set_visible(False)
+    axs[0, 1].legend(loc='upper right', fontsize = 8)
+    ax1 = axs[0, 1].twinx()
+    ax1.plot(x, prices_per_neighbourhood, color='purple', linewidth=0.75)
 
-    axs[1, 0].set_title('Average Rating / Neighborhood / Room Type', fontsize = 8)
+    axs[1, 0].set_title('Rating', fontsize = 8)
     axs[1, 0].set_xticks(x, neighbourhoods, rotation = 90, fontsize = 8)
+    ax2 = axs[1, 0].twinx()
+    ax2.plot(x, prices_per_neighbourhood, color='purple', linewidth=0.75)
 
     axs[1, 1].set_title('Average Price / Neighborhood', fontsize = 8)
     axs[1, 1].set_xticks(x, neighbourhoods, rotation = 90, fontsize = 8)
