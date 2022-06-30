@@ -144,6 +144,8 @@ def _plot(neighbourhoods: List[str], room_types: List[str]):
     axs[1].set_xticks(x, neighbourhoods, rotation = 90, fontsize = 10)
     axs[1].legend(loc='upper right', fontsize = 10)
 
+    fig.set_figheight(6)
+    fig.set_figwidth(15)
     fig.tight_layout()
 
     plt.show()
