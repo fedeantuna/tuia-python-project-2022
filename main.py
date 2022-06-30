@@ -118,7 +118,7 @@ def _plot(neighbourhoods: List[str], room_types: List[str]):
     normalized_room_types = normalize_str_list(room_types)
     relative_distances = _get_relative_distances(width, normalized_room_types.keys())
 
-    fig, axs = plt.subplots(2, 1)
+    fig, axs = plt.subplots(1, 2)
     ax0 = axs[0].twinx()
     ax1 = axs[1].twinx()
 
@@ -158,16 +158,16 @@ def _plot(neighbourhoods: List[str], room_types: List[str]):
 
     axs[0].set_title('Occupancy and Price', fontsize = 14)
     axs[0].set_xticks(x, neighbourhoods, rotation = 90, fontsize = 10)
-    axs[0].legend(loc='upper left', fontsize = 10)
+    axs[0].legend(loc='center left', bbox_to_anchor=(1.1, 0.5),fancybox=True, ncol=1)
 
     axs[1].set_title('Occupancy and Rating', fontsize = 14)
     axs[1].set_xticks(x, neighbourhoods, rotation = 90, fontsize = 10)
-    axs[1].legend(loc='upper right', fontsize = 10)
 
     fig.set_figheight(6)
     fig.set_figwidth(15)
     fig.tight_layout()
 
+    
     plt.show()
 
 def _get_relative_distances(width: float, bars: List[str]):
