@@ -131,7 +131,7 @@ def _plot(neighbourhoods: List[str], room_types: List[str]):
         axs[0].bar(x + relative_distances[normalized_room_type], occupancies, width, label=normalized_room_types[normalized_room_type], color = arr[i])
         ax0.scatter(x + relative_distances[normalized_room_type], prices, color = '#140b34', marker = 'd', linewidths = 1.5)
 
-        axs[1].bar(x + relative_distances[normalized_room_type], occupancies, width, label=normalized_room_types[normalized_room_type])
+        axs[1].bar(x + relative_distances[normalized_room_type], occupancies, width, label=normalized_room_types[normalized_room_type], color = arr[i])
         ax1.scatter(x + relative_distances[normalized_room_type], ratings, color = '#140b34', marker = 'd', linewidths = 1.5)
 
         i += 1
