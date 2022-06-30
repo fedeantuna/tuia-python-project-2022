@@ -1,4 +1,3 @@
-from turtle import color
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
@@ -57,9 +56,9 @@ def _filter_average_data_by_neighbourhood_by_room_type(data: dict, neighbourhood
         rating_sum = data[neighbourhood][room_type]['rating_sum']
         counter = data[neighbourhood][room_type]['counter']
     else:
-        occupancy_percentage_sum = 0
-        price_sum = 0
-        rating_sum = 0
+        occupancy_percentage_sum = np.nan
+        price_sum = np.nan
+        rating_sum = np.nan
         counter = 0
 
     if counter != 0:
@@ -67,9 +66,9 @@ def _filter_average_data_by_neighbourhood_by_room_type(data: dict, neighbourhood
         average_price = average(price_sum, counter)
         average_rating = average(rating_sum, counter)
     else:
-        average_occupancy = 0
-        average_price = 0
-        average_rating = 0
+        average_occupancy = np.nan
+        average_price = np.nan
+        average_rating = np.nan
 
     return (average_occupancy, average_price, average_rating)
 
@@ -118,47 +117,32 @@ def _plot(neighbourhoods: List[str], room_types: List[str]):
     normalized_room_types = normalize_str_list(room_types)
     relative_distances = _get_relative_distances(width, normalized_room_types.keys())
 
-    fig, axs = plt.subplots(2, 2)
+    fig, axs = plt.subplots(1, 2)
+    ax0 = axs[0].twinx()
+    ax1 = axs[1].twinx()
 
-    prices_per_neighbourhood = []
-    room_types_count = 0
-    
+    arr = ['#449c0b', '#84206b', '#e55c30', '#f6d746']
+    i = 0
     for normalized_room_type in normalized_room_types.keys():
         occupancies = globals()[f'_{normalized_room_type}_occupancy']
         prices = globals()[f'_{normalized_room_type}_price']
         ratings = globals()[f'_{normalized_room_type}_rating']
 
-        axs[0, 0].bar(x + relative_distances[normalized_room_type], occupancies, width, label=normalized_room_types[normalized_room_type])
-        axs[0, 1].bar(x + relative_distances[normalized_room_type], prices, width, label=normalized_room_types[normalized_room_type])
-        axs[1, 0].bar(x + relative_distances[normalized_room_type], ratings, width, label=normalized_room_types[normalized_room_type])
+        axs[0].bar(x + relative_distances[normalized_room_type], occupancies, width, label=normalized_room_types[normalized_room_type], color = arr[i])
+        ax0.scatter(x + relative_distances[normalized_room_type], prices, color = '#140b34', marker = 'd', linewidths = 1.5)
 
-        room_types_count += 1
-        for idx, price in enumerate(prices):
-            if len(prices_per_neighbourhood) != len(prices):
-                prices_per_neighbourhood.append(average(price, len(room_types)))
-            else:
-                prices_per_neighbourhood[idx] += average(price, len(room_types))
-    axs[1, 1].bar(x, prices_per_neighbourhood, width * 3, color = 'gray')
+        axs[1].bar(x + relative_distances[normalized_room_type], occupancies, width, label=normalized_room_types[normalized_room_type])
+        ax1.scatter(x + relative_distances[normalized_room_type], ratings, color = '#140b34', marker = 'd', linewidths = 1.5)
 
-    axs[0, 0].set_title('Occupancy', fontsize = 8)
-    axs[0, 0].get_xaxis().set_visible(False)
-    ax0 = axs[0, 0].twinx()
-    ax0.plot(x, prices_per_neighbourhood, color='purple', linewidth=0.75)
+        i += 1
 
-    axs[0, 1].set_title('Price', fontsize = 8)
-    axs[0, 1].set_xticks(x, neighbourhoods, rotation = 90, fontsize = 8)
-    axs[0, 1].get_xaxis().set_visible(False)
-    axs[0, 1].legend(loc='upper right', fontsize = 8)
-    ax1 = axs[0, 1].twinx()
-    ax1.plot(x, prices_per_neighbourhood, color='purple', linewidth=0.75)
+    axs[0].set_title('Occupancy', fontsize = 14)
+    axs[0].set_xticks(x, neighbourhoods, rotation = 90, fontsize = 10)
+    axs[0].legend(loc='upper left', fontsize = 10)
 
-    axs[1, 0].set_title('Rating', fontsize = 8)
-    axs[1, 0].set_xticks(x, neighbourhoods, rotation = 90, fontsize = 8)
-    ax2 = axs[1, 0].twinx()
-    ax2.plot(x, prices_per_neighbourhood, color='purple', linewidth=0.75)
-
-    axs[1, 1].set_title('Average Price / Neighborhood', fontsize = 8)
-    axs[1, 1].set_xticks(x, neighbourhoods, rotation = 90, fontsize = 8)
+    axs[1].set_title('Rating', fontsize = 14)
+    axs[1].set_xticks(x, neighbourhoods, rotation = 90, fontsize = 10)
+    axs[1].legend(loc='upper right', fontsize = 10)
 
     fig.tight_layout()
 
