@@ -21,6 +21,7 @@ def main():
             _generate_plot_data(room_type, average_occupancy, average_price, average_rating)
 
     _plot(neighbourhoods, room_types)
+    
 
 def _read_airbnb_data() -> Tuple[dict, list, list]:
     """
@@ -214,7 +215,7 @@ def _plot_lines(neighbourhoods: List[str], normalized_room_types: dict, color: s
 
             for normalized_room_type in normalized_room_types.keys():
                 value = globals()[f'_{normalized_room_type}_{y[idx]}'][neighbourhood_idx]
-                locals()[f'{y[idx]}_per_room_type'].append(value if value is not np.nan else 0)
+                locals()[f'{y[idx]}_per_room_type'].append(value)
             
             plot_relative_distances = []
             for relative_distance in relative_distances.values():
