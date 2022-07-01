@@ -1,4 +1,3 @@
-from turtle import color
 from matplotlib.axes import Axes
 import matplotlib.pyplot as plt
 import numpy as np
