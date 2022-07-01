@@ -1,4 +1,5 @@
 from turtle import color
+from matplotlib.axes import Axes
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
@@ -116,45 +117,16 @@ def _plot(neighbourhoods: List[str], room_types: List[str]):
     x = np.arange(len(neighbourhoods))
     width = 0.20
     normalized_room_types = normalize_str_list(room_types)
-    relative_distances = _get_relative_distances(width, normalized_room_types.keys())
 
     fig, axs = plt.subplots(1, 2)
-    ax0 = axs[0].twinx()
-    ax1 = axs[1].twinx()
-
+    twinxs = [axs[0].twinx(), axs[1].twinx()]
+    ytwinxs = ['price', 'rating']
     color_palette = iter(['#b30000', '#7c1158', '#4421af', '#1a53ff', '#0d88e6', '#00b7c7', '#5ad45a', '#8be04e', '#ebdc78'])
+    twinx_color = '#140b34'
 
-    for normalized_room_type in normalized_room_types.keys():
-        occupancies = globals()[f'_{normalized_room_type}_occupancy']
-        prices = globals()[f'_{normalized_room_type}_price']
-        ratings = globals()[f'_{normalized_room_type}_rating']
-
-        selected_color = next(color_palette)
-
-        axs[0].bar(x + relative_distances[normalized_room_type], occupancies, width, label=normalized_room_types[normalized_room_type], color = selected_color)
-        ax0.scatter(x + relative_distances[normalized_room_type], prices, color = '#140b34', marker = 'd', linewidths = 1.5)
-
-        axs[1].bar(x + relative_distances[normalized_room_type], occupancies, width, label=normalized_room_types[normalized_room_type], color = selected_color)
-        ax1.scatter(x + relative_distances[normalized_room_type], ratings, color = '#140b34', marker = 'd', linewidths = 1.5)
-    
-    price_color = '#140b34'
-    for neighbourhood_idx in range(len(neighbourhoods)):
-        prices_per_room_type = []
-        ratings_per_room_type = []
-        for normalized_room_type in normalized_room_types.keys():
-            price = globals()[f'_{normalized_room_type}_price'][neighbourhood_idx]
-            prices_per_room_type.append(price if price is not np.nan else 0)
-
-            rating = globals()[f'_{normalized_room_type}_rating'][neighbourhood_idx]
-            ratings_per_room_type.append(rating if rating is not np.nan else 0)
-        
-        plot_relative_distances = []
-        for rd in relative_distances.values():
-            plot_relative_distances.append(x[neighbourhood_idx] + rd)
-    
-        ax0.plot(plot_relative_distances, prices_per_room_type, color = price_color)
-        ax1.plot(plot_relative_distances, ratings_per_room_type, color = price_color)
-
+    _plot_bars(normalized_room_types, color_palette, axs, x, width)
+    _plot_scatters(normalized_room_types, twinx_color, twinxs, x, ytwinxs, width)
+    _plot_lines(neighbourhoods, normalized_room_types, twinx_color, twinxs, x, ytwinxs, width)
 
     axs[0].set_title('Occupancy and Price', fontsize = 14)
     axs[0].set_xticks(x, neighbourhoods, rotation = 90, fontsize = 10)
@@ -169,6 +141,85 @@ def _plot(neighbourhoods: List[str], room_types: List[str]):
 
     
     plt.show()
+
+def _plot_bars(normalized_room_types: dict, color_palette: List[str], axs: Axes, x: np.ndarray, width: float):
+    """
+    Generates bar graphs for the user to see based on the
+    room types that it receives.
+
+    Arguments:
+        normalized_room_types: a dictionary containing the normalized room types
+        color_palette: a list of the colors available for use
+        axs: the axes for the graphs
+        x: the arranged positions for the x axis
+        width: the width of each bar
+    """
+    relative_distances = _get_relative_distances(width, normalized_room_types.keys())
+
+    for normalized_room_type in normalized_room_types.keys():
+        occupancies = globals()[f'_{normalized_room_type}_occupancy']
+
+        selected_color = next(color_palette)
+
+        for ax in axs.flat:
+            ax.bar(x + relative_distances[normalized_room_type], occupancies, width, label=normalized_room_types[normalized_room_type], color = selected_color)
+
+def _plot_scatters(normalized_room_types: dict, color: str, axs: List[Axes], x: np.ndarray, y: List[str], width: float, marker = 'd', linewidths = 1.5):
+    """
+    Generates scatter graphs for the user to see based on the
+    room types that it receives.
+
+    Arguments:
+        normalized_room_types: a dictionary containing the normalized room types
+        color: a str representing the color for the graph
+        axs: the axes for the graphs
+        x: the arranged positions for the x axis
+        y: a list of the concepts that will be represented on the y axis, the items
+    in this list must match with an existent global variable and they will match by
+    order the axs argument
+        width: the width of each bar
+        marker: the marker used on the scatter graph
+        linewidths: the line widths for drawing the marker
+    """
+    relative_distances = _get_relative_distances(width, normalized_room_types.keys())
+
+    for idx in range(len(y)):
+        for normalized_room_type in normalized_room_types.keys():
+            values = globals()[f'_{normalized_room_type}_{y[idx]}']
+
+            axs[idx].scatter(x + relative_distances[normalized_room_type], values, color = color, marker = marker, linewidths = linewidths)
+
+def _plot_lines(neighbourhoods: List[str], normalized_room_types: dict, color: str, axs: List[Axes], x: np.ndarray, y: List[str], width: float):
+    """
+    Generates line graphs for the user to see based on the
+    room types that it receives.
+
+    Arguments:
+        neighbourhoods: a list of strings with the neighbourhoods
+        normalized_room_types: a dictionary containing the normalized room types
+        color: a str representing the color for the graph
+        axs: the axes for the graphs
+        x: the arranged positions for the x axis
+        y: a list of the concepts that will be represented on the y axis, the items
+    in this list must match with an existent global variable and they will match by
+    order the axs argument
+        width: the width of each bar
+    """
+    relative_distances = _get_relative_distances(width, normalized_room_types.keys())
+
+    for idx in range(len(y)):
+        for neighbourhood_idx in range(len(neighbourhoods)):
+            locals()[f'{y[idx]}_per_room_type'] = []
+
+            for normalized_room_type in normalized_room_types.keys():
+                value = globals()[f'_{normalized_room_type}_{y[idx]}'][neighbourhood_idx]
+                locals()[f'{y[idx]}_per_room_type'].append(value if value is not np.nan else 0)
+            
+            plot_relative_distances = []
+            for relative_distance in relative_distances.values():
+                plot_relative_distances.append(x[neighbourhood_idx] + relative_distance)
+        
+            axs[idx].plot(plot_relative_distances, locals()[f'{y[idx]}_per_room_type'], color = color)
 
 def _get_relative_distances(width: float, bars: List[str]):
     """
