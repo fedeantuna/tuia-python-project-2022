@@ -137,7 +137,6 @@ def _plot(neighbourhoods: List[str], room_types: List[str]):
     fig.set_figheight(6)
     fig.set_figwidth(15)
     fig.tight_layout()
-
     
     plt.show()
 
@@ -153,6 +152,7 @@ def _plot_bars(normalized_room_types: dict, color_palette: List[str], axs: Axes,
         x: the arranged positions for the x axis
         width: the width of each bar
     """
+    
     relative_distances = _get_relative_distances(width, normalized_room_types.keys())
 
     for normalized_room_type in normalized_room_types.keys():
@@ -180,6 +180,7 @@ def _plot_scatters(normalized_room_types: dict, color: str, axs: List[Axes], x: 
         marker: the marker used on the scatter graph
         linewidths: the line widths for drawing the marker
     """
+
     relative_distances = _get_relative_distances(width, normalized_room_types.keys())
 
     for idx in range(len(y)):
@@ -204,6 +205,7 @@ def _plot_lines(neighbourhoods: List[str], normalized_room_types: dict, color: s
     order the axs argument
         width: the width of each bar
     """
+
     relative_distances = _get_relative_distances(width, normalized_room_types.keys())
 
     for idx in range(len(y)):
