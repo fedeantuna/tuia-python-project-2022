@@ -168,7 +168,6 @@ def _plot_question_one_and_two(neighbourhoods: List[str], room_types: List[str],
     
     plt.show()
 
-
 def _plot_bars(normalized_room_types: dict, color_palette: Iterator[str], axs: List[Axes], x: np.ndarray, width: float, y: str):
     """
     Generates bar graphs for the user to see based on the
@@ -191,8 +190,6 @@ def _plot_bars(normalized_room_types: dict, color_palette: Iterator[str], axs: L
 
         for ax in axs:
             ax.bar(x + relative_distances[normalized_room_type], values, width, label=normalized_room_types[normalized_room_type], color = selected_color)
-
-
 
 def _plot_scatters(normalized_room_types: dict, color: str, axs: List[Axes], x: np.ndarray, y: List[str], width: float, marker = 'd', linewidths = 1.5):
     """
