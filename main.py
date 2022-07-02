@@ -20,6 +20,12 @@ def main():
 
             _generate_plot_data(room_type, average_occupancy, average_price, average_rating)
 
+    propierties = ['occupancy','price','rating']
+    for room_type in room_types:
+        normalized_room_type = normalize_str(room_type)
+        for propierty in propierties:
+            print(f'_{normalized_room_type}_{propierty}',globals()[f'_{normalized_room_type}_{propierty}'])
+    
     _plot(neighbourhoods, room_types)
 
 def _read_airbnb_data() -> Tuple[dict, list, list]:
@@ -141,6 +147,8 @@ def _plot(neighbourhoods: List[str], room_types: List[str]):
     
     plt.show()
 
+
+
 def _plot_bars(normalized_room_types: dict, color_palette: List[str], axs: Axes, x: np.ndarray, width: float):
     """
     Generates bar graphs for the user to see based on the
@@ -162,6 +170,8 @@ def _plot_bars(normalized_room_types: dict, color_palette: List[str], axs: Axes,
 
         for ax in axs.flat:
             ax.bar(x + relative_distances[normalized_room_type], occupancies, width, label=normalized_room_types[normalized_room_type], color = selected_color)
+
+
 
 def _plot_scatters(normalized_room_types: dict, color: str, axs: List[Axes], x: np.ndarray, y: List[str], width: float, marker = 'd', linewidths = 1.5):
     """
