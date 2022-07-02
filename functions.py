@@ -1,3 +1,5 @@
+import os
+import platform
 from typing import List
 
 def average(summation: float, quantity: int) -> float:
@@ -64,3 +66,9 @@ def normalize_price(price: str) -> float:
     """
 
     return float(price[1:].replace(',',''))
+
+def clear_screen():
+    if platform.system() == 'Windows':
+        os.system('cls')
+    else:
+        os.system('clear')

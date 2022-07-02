@@ -173,3 +173,19 @@ While in the virtual environment, run `python main.py` depending on your system.
     .
 }
 ```
+
+# Questions
+
+1. What is the average price for each room type on each neighbourhood?
+
+![Price by Room Type by Neighbourhood](./files/price_by_room_type_by_neighbourhood.png)
+
+2. What is the average rating for each room type on each neighbourhood?
+
+![Rating by Room Type by Neighbourhood](./files/rating_by_room_type_by_neighbourhood.png)
+
+3. What is the average occupancy for each room type on each neighbourhood?
+* * How does the occupancy relate with the pricing?
+* * How does the occupancy relate with the rating?
+
+![Occupancy by Room Type by Neighbourhood](./files/occupancy_by_room_type_by_neighbourhood.png)

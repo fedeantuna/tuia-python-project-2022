@@ -18,6 +18,7 @@ def get_calendar_data() -> dict:
         reader = csv.reader(file, delimiter=',')
 
         header = next(reader)
+        print(header)
         listing_id_index = header.index('listing_id')
         available_index = header.index('available')
 

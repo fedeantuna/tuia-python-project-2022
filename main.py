@@ -1,12 +1,12 @@
-from matplotlib.axes import Axes
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
+from matplotlib.axes import Axes
 from typing import Iterator, List, Tuple
 
 from airbnb_calendar import get_calendar_data
 from airbnb_listings import get_listings_data
-from functions import average, normalize_str, normalize_str_list
+from functions import average, clear_screen, normalize_str, normalize_str_list
 
 def main():
     (airbnb_data, neighbourhoods, room_types) = _read_airbnb_data()
@@ -20,11 +20,47 @@ def main():
 
             _generate_plot_data(room_type, average_occupancy, average_price, average_rating)
     
-    messi_color_palette = ['#0d24a6', '#ce3843', '#c8c2aa', '#462629']
+    _display_menu()
 
-    _plot_question_one_and_two(neighbourhoods, room_types, 'price', 'Price by Room Type by Neighbourhood', ['#f79256', '#a53860','#1d4e89', '#4c3b4d'])
-    _plot_question_one_and_two(neighbourhoods, room_types, 'rating', 'Rating by Room Type by Neighbourhood',['#f79256', '#a53860','#1d4e89', '#4c3b4d'])
-    _plot_question_three(neighbourhoods, room_types, messi_color_palette)
+def _display_menu(neighbourhoods: List[str], room_types: List[str]):
+    """
+    Creates the menu for the application
+
+    Arguments:
+        neighbourhoods: a list of strings representing the neighbourhoods
+        room_types: a list of strings representing the room types
+    """
+
+    messi_color_palette = ['#0d24a6', '#ce3843', '#c8c2aa', '#462629']
+    elegant_color_palette = ['#f79256', '#a53860','#1d4e89', '#4c3b4d']
+
+    while(True):
+        clear_screen()
+
+        print('Data Analysis for Copenhagen')
+        print('----------------------------')
+        print('1) Price by Room Type by Neighbourhood')
+        print('2) Rating by Room Type by Neighbourhood')
+        print('3) Occupancy by Room Type by Neighbourhood')
+        print('   and its relation with Price and Rating')
+        print('0) Exit')
+        user_selection = input('Select which graphic you would like to see: ')
+
+        match user_selection:
+            case '1':
+                _plot_question_one_and_two(neighbourhoods, room_types, 'price', 'Price by Room Type by Neighbourhood', elegant_color_palette)
+            case '2':
+                _plot_question_one_and_two(neighbourhoods, room_types, 'rating', 'Rating by Room Type by Neighbourhood', elegant_color_palette)
+            case '3':
+                _plot_question_three(neighbourhoods, room_types, messi_color_palette)
+            case '0':
+                break
+            case _:
+                clear_screen()
+
+                print('The selected option is not valid. Please select a valid option.')
+                print()
+                input('Press any key to continue...')
 
 def _read_airbnb_data() -> Tuple[dict, list, list]:
     """
@@ -105,16 +141,31 @@ def _generate_plot_data(room_type: str, average_occupancy: float, average_price:
     globals()[f'_{normalized_room_type}_price'].append(average_price)
     globals()[f'_{normalized_room_type}_rating'].append(average_rating)
 
+def _plot_question_one_and_two(neighbourhoods: List[str], room_types: List[str], y: str, title: str, color_list: List[str]):
+    sns.set()
+
+    x = np.arange(len(neighbourhoods))
+    width = 0.20
+    normalized_room_types = normalize_str_list(room_types)
+
+    fig, ax = plt.subplots()
+    color_palette = iter(color_list)
+    _plot_bars(normalized_room_types, color_palette, [ax], x, width, y)
+
+    ax.set_title(title, fontsize = 14)
+    ax.set_xticks(x, neighbourhoods, rotation = 90, fontsize = 10)
+    ax.legend(loc='center left', bbox_to_anchor = (1, 0.5), fancybox = True, ncol = 1)
+    
+    if y == 'rating':
+        ax.set_ylim([3.5, 5])
+
+    fig.set_figheight(6)
+    fig.set_figwidth(15)
+    fig.tight_layout()
+    
+    plt.show()
+
 def _plot_question_three(neighbourhoods: List[str], room_types: List[str], color_list: List[str]):
-    """
-    Generates different graphs for the user to see based on the
-    neighbourhoods and room types that it receives.
-
-    Arguments:
-        neighbourhoods: a list of the neighbourhoods
-        room_types: a list of the room types
-    """
-
     sns.set()
 
     x = np.arange(len(neighbourhoods))
@@ -137,30 +188,6 @@ def _plot_question_three(neighbourhoods: List[str], room_types: List[str], color
 
     axs[1].set_title('Occupancy and Rating', fontsize = 14)
     axs[1].set_xticks(x, neighbourhoods, rotation = 90, fontsize = 10)
-
-    fig.set_figheight(6)
-    fig.set_figwidth(15)
-    fig.tight_layout()
-    
-    plt.show()
-
-def _plot_question_one_and_two(neighbourhoods: List[str], room_types: List[str], y: str, title: str, color_list: List[str]):
-    sns.set()
-
-    x = np.arange(len(neighbourhoods))
-    width = 0.20
-    normalized_room_types = normalize_str_list(room_types)
-
-    fig, ax = plt.subplots()
-    color_palette = iter(color_list)
-    _plot_bars(normalized_room_types, color_palette, [ax], x, width, y)
-
-    ax.set_title(title, fontsize = 14)
-    ax.set_xticks(x, neighbourhoods, rotation = 90, fontsize = 10)
-    ax.legend(loc='center left', bbox_to_anchor = (1, 0.5), fancybox = True, ncol = 1)
-    
-    if y == 'rating':
-        ax.set_ylim([3.5, 5])
 
     fig.set_figheight(6)
     fig.set_figwidth(15)
