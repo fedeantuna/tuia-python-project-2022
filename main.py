@@ -2,7 +2,7 @@ from matplotlib.axes import Axes
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-from typing import List, Tuple
+from typing import Iterator, List, Tuple
 
 from airbnb_calendar import get_calendar_data
 from airbnb_listings import get_listings_data
@@ -19,14 +19,12 @@ def main():
                     room_type)
 
             _generate_plot_data(room_type, average_occupancy, average_price, average_rating)
-
-    propierties = ['occupancy','price','rating']
-    for room_type in room_types:
-        normalized_room_type = normalize_str(room_type)
-        for propierty in propierties:
-            print(f'_{normalized_room_type}_{propierty}',globals()[f'_{normalized_room_type}_{propierty}'])
     
-    _plot(neighbourhoods, room_types)
+    messi_color_palette = ['#0d24a6', '#ce3843', '#c8c2aa', '#462629']
+
+    _plot_question_one_and_two(neighbourhoods, room_types, 'price', 'Price by Room Type by Neighbourhood', ['#f79256', '#a53860','#1d4e89', '#4c3b4d'])
+    _plot_question_one_and_two(neighbourhoods, room_types, 'rating', 'Rating by Room Type by Neighbourhood',['#f79256', '#a53860','#1d4e89', '#4c3b4d'])
+    _plot_question_three(neighbourhoods, room_types, messi_color_palette)
 
 def _read_airbnb_data() -> Tuple[dict, list, list]:
     """
@@ -107,7 +105,7 @@ def _generate_plot_data(room_type: str, average_occupancy: float, average_price:
     globals()[f'_{normalized_room_type}_price'].append(average_price)
     globals()[f'_{normalized_room_type}_rating'].append(average_rating)
 
-def _plot(neighbourhoods: List[str], room_types: List[str]):
+def _plot_question_three(neighbourhoods: List[str], room_types: List[str], color_list: List[str]):
     """
     Generates different graphs for the user to see based on the
     neighbourhoods and room types that it receives.
@@ -126,16 +124,16 @@ def _plot(neighbourhoods: List[str], room_types: List[str]):
     fig, axs = plt.subplots(1, 2)
     twinxs = [axs[0].twinx(), axs[1].twinx()]
     ytwinxs = ['price', 'rating']
-    color_palette = iter(['#b30000', '#7c1158', '#4421af', '#1a53ff', '#0d88e6', '#00b7c7', '#5ad45a', '#8be04e', '#ebdc78'])
+    color_palette = iter(color_list)
     twinx_color = '#140b34'
 
-    _plot_bars(normalized_room_types, color_palette, axs, x, width)
+    _plot_bars(normalized_room_types, color_palette, [axs[0], axs[1]], x, width, 'occupancy')
     _plot_scatters(normalized_room_types, twinx_color, twinxs, x, ytwinxs, width)
     _plot_lines(neighbourhoods, normalized_room_types, twinx_color, twinxs, x, ytwinxs, width)
 
     axs[0].set_title('Occupancy and Price', fontsize = 14)
     axs[0].set_xticks(x, neighbourhoods, rotation = 90, fontsize = 10)
-    axs[0].legend(loc='center left', bbox_to_anchor=(1.1, 0.5),fancybox=True, ncol=1)
+    axs[0].legend(loc='center left', bbox_to_anchor = (1.1, 0.5), fancybox = True, ncol = 1)
 
     axs[1].set_title('Occupancy and Rating', fontsize = 14)
     axs[1].set_xticks(x, neighbourhoods, rotation = 90, fontsize = 10)
@@ -143,13 +141,32 @@ def _plot(neighbourhoods: List[str], room_types: List[str]):
     fig.set_figheight(6)
     fig.set_figwidth(15)
     fig.tight_layout()
+    
+    plt.show()
 
+def _plot_question_one_and_two(neighbourhoods: List[str], room_types: List[str], y: str, title: str, color_list: List[str]):
+    sns.set()
+
+    x = np.arange(len(neighbourhoods))
+    width = 0.20
+    normalized_room_types = normalize_str_list(room_types)
+
+    fig, ax = plt.subplots()
+    color_palette = iter(color_list)
+    _plot_bars(normalized_room_types, color_palette, [ax], x, width, y)
+
+    ax.set_title(title, fontsize = 14)
+    ax.set_xticks(x, neighbourhoods, rotation = 90, fontsize = 10)
+    ax.legend(loc='center left', bbox_to_anchor = (1, 0.5), fancybox = True, ncol = 1)
+
+    fig.set_figheight(6)
+    fig.set_figwidth(15)
+    fig.tight_layout()
     
     plt.show()
 
 
-
-def _plot_bars(normalized_room_types: dict, color_palette: List[str], axs: Axes, x: np.ndarray, width: float):
+def _plot_bars(normalized_room_types: dict, color_palette: Iterator[str], axs: List[Axes], x: np.ndarray, width: float, y: str):
     """
     Generates bar graphs for the user to see based on the
     room types that it receives.
@@ -161,15 +178,16 @@ def _plot_bars(normalized_room_types: dict, color_palette: List[str], axs: Axes,
         x: the arranged positions for the x axis
         width: the width of each bar
     """
+    
     relative_distances = _get_relative_distances(width, normalized_room_types.keys())
 
     for normalized_room_type in normalized_room_types.keys():
-        occupancies = globals()[f'_{normalized_room_type}_occupancy']
+        values = globals()[f'_{normalized_room_type}_{y}']
 
         selected_color = next(color_palette)
 
-        for ax in axs.flat:
-            ax.bar(x + relative_distances[normalized_room_type], occupancies, width, label=normalized_room_types[normalized_room_type], color = selected_color)
+        for ax in axs:
+            ax.bar(x + relative_distances[normalized_room_type], values, width, label=normalized_room_types[normalized_room_type], color = selected_color)
 
 
 
@@ -190,6 +208,7 @@ def _plot_scatters(normalized_room_types: dict, color: str, axs: List[Axes], x: 
         marker: the marker used on the scatter graph
         linewidths: the line widths for drawing the marker
     """
+
     relative_distances = _get_relative_distances(width, normalized_room_types.keys())
 
     for idx in range(len(y)):
@@ -214,6 +233,7 @@ def _plot_lines(neighbourhoods: List[str], normalized_room_types: dict, color: s
     order the axs argument
         width: the width of each bar
     """
+
     relative_distances = _get_relative_distances(width, normalized_room_types.keys())
 
     for idx in range(len(y)):
@@ -222,7 +242,7 @@ def _plot_lines(neighbourhoods: List[str], normalized_room_types: dict, color: s
 
             for normalized_room_type in normalized_room_types.keys():
                 value = globals()[f'_{normalized_room_type}_{y[idx]}'][neighbourhood_idx]
-                locals()[f'{y[idx]}_per_room_type'].append(value if value is not np.nan else 0)
+                locals()[f'{y[idx]}_per_room_type'].append(value)
             
             plot_relative_distances = []
             for relative_distance in relative_distances.values():
