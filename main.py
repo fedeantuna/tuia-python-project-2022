@@ -158,6 +158,9 @@ def _plot_question_one_and_two(neighbourhoods: List[str], room_types: List[str],
     ax.set_title(title, fontsize = 14)
     ax.set_xticks(x, neighbourhoods, rotation = 90, fontsize = 10)
     ax.legend(loc='center left', bbox_to_anchor = (1, 0.5), fancybox = True, ncol = 1)
+    
+    if y == 'rating':
+        ax.set_ylim([3.5, 5])
 
     fig.set_figheight(6)
     fig.set_figwidth(15)
