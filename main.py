@@ -20,7 +20,11 @@ def main():
 
             _generate_plot_data(room_type, average_occupancy, average_price, average_rating)
     
+<<<<<<< HEAD
     _display_menu()
+=======
+    _display_menu(neighbourhoods, room_types)
+>>>>>>> 79049c7e5dc9894cd97acb352f3049ee7dff3a35
 
 def _display_menu(neighbourhoods: List[str], room_types: List[str]):
     """
