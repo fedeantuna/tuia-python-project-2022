@@ -20,7 +20,7 @@ def main():
 
             _generate_plot_data(room_type, average_occupancy, average_price, average_rating)
     
-    _display_menu()
+    _display_menu(neighbourhoods, room_types)
 
 def _display_menu(neighbourhoods: List[str], room_types: List[str]):
     """
