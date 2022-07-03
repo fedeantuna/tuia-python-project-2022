@@ -46,25 +46,24 @@ def _display_menu(neighbourhoods: List[str], room_types: List[str]):
         print('0) Exit')
         user_selection = input('Select which graphic you would like to see: ')
 
-        match user_selection:
-            case '1':
-                title = 'Price by Room Type by Neighbourhood'
-                y = 'price'
-                _plot_question_one_and_two(neighbourhoods, room_types, y, title, elegant_color_palette)
-            case '2':
-                title = 'Rating by Room Type by Neighbourhood'
-                y = 'rating'
-                _plot_question_one_and_two(neighbourhoods, room_types, y, title, elegant_color_palette)
-            case '3':
-                _plot_question_three(neighbourhoods, room_types, messi_color_palette)
-            case '0':
-                break
-            case _:
-                clear_screen()
+        if user_selection == '1':
+            title = 'Price by Room Type by Neighbourhood'
+            y = 'price'
+            _plot_question_one_and_two(neighbourhoods, room_types, y, title, elegant_color_palette)
+        elif user_selection == '2':
+            title = 'Rating by Room Type by Neighbourhood'
+            y = 'rating'
+            _plot_question_one_and_two(neighbourhoods, room_types, y, title, elegant_color_palette)
+        elif user_selection == '3':
+            _plot_question_three(neighbourhoods, room_types, messi_color_palette)
+        elif user_selection == '0':
+            break
+        else:
+            clear_screen()
 
-                print('The selected option is not valid. Please select a valid option.')
-                print()
-                input('Press any key to continue...')
+            print('The selected option is not valid. Please select a valid option.')
+            print()
+            input('Press "Enter" to continue...')
 
 def _read_airbnb_data() -> Tuple[dict, list, list]:
     """
