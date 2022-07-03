@@ -63,7 +63,7 @@ def _display_menu(neighbourhoods: List[str], room_types: List[str]):
 
             print('The selected option is not valid. Please select a valid option.')
             print()
-            input('Press any key to continue...')
+            input('Press "Enter" to continue...')
 
 def _read_airbnb_data() -> Tuple[dict, list, list]:
     """
