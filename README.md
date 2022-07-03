@@ -190,6 +190,8 @@ _plot_question_one_and_two(neighbourhoods, room_types, y, title, elegant_color_p
 
 We can see the distribution of prices by room type and neighbourhood throughout Copenhagen.
 
+This is a more detailed view for the call to generate the previous chart:
+
 ```python
 def _plot_question_one_and_two(neighbourhoods: List[str], room_types: List[str], y: str, title: str, color_list: List[str]):
     sns.set()
@@ -230,6 +232,8 @@ _plot_question_one_and_two(neighbourhoods, room_types, y, title, elegant_color_p
 
 We can see the distribution of ratings by room type and neighbourhood throughout Copenhagen.
 
+This is a more detailed view for the call to generate the previous chart:
+
 ```python
 def _plot_question_one_and_two(neighbourhoods: List[str], room_types: List[str], y: str, title: str, color_list: List[str]):
     sns.set()
@@ -256,9 +260,7 @@ def _plot_question_one_and_two(neighbourhoods: List[str], room_types: List[str],
     plt.show()
 ```
 
-## What is the average occupancy for each room type on each neighbourhood?
-    * How does the occupancy relate with the pricing?
-    * How does the occupancy relate with the rating?
+## What is the average occupancy for each room type on each neighbourhood and how it relates to the prices and ratings?
 
 In our code, this is the call needed to generate a graphic response to this question:
 
@@ -269,6 +271,8 @@ _plot_question_three(neighbourhoods, room_types, messi_color_palette)
 ![Occupancy by Room Type by Neighbourhood](./files/occupancy_by_room_type_by_neighbourhood.png)
 
 We can see the distribution of occupancy by room type and neighbourhood throughout Copenhagen and how that correlates with the prices and ratings.
+
+This is a more detailed view for the call to generate the previous chart:
 
 ```python
 def _plot_question_three(neighbourhoods: List[str], room_types: List[str], color_list: List[str]):
