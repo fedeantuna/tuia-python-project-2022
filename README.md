@@ -176,16 +176,128 @@ While in the virtual environment, run `python main.py` depending on your system.
 
 # Questions
 
-1. What is the average price for each room type on each neighbourhood?
+## What is the average price for each room type on each neighbourhood?
+
+In our code, this is the call needed to generate a graphic response to this question:
+
+```python
+title = 'Price by Room Type by Neighbourhood'
+y = 'price'
+_plot_question_one_and_two(neighbourhoods, room_types, y, title, elegant_color_palette)
+```
 
 ![Price by Room Type by Neighbourhood](./files/price_by_room_type_by_neighbourhood.png)
 
+We can see the distribution of prices by room type and neighbourhood throughout Copenhagen.
+
+```python
+def _plot_question_one_and_two(neighbourhoods: List[str], room_types: List[str], y: str, title: str, color_list: List[str]):
+    sns.set()
+
+    x = np.arange(len(neighbourhoods))
+    width = 0.20
+    normalized_room_types = normalize_str_list(room_types)
+
+    fig, ax = plt.subplots()
+    color_palette = iter(color_list)
+    _plot_bars(normalized_room_types, color_palette, [ax], x, width, y)
+
+    ax.set_title(title, fontsize = 14)
+    ax.set_xticks(x, neighbourhoods, rotation = 90, fontsize = 10)
+    ax.legend(loc='center left', bbox_to_anchor = (1, 0.5), fancybox = True, ncol = 1)
+    
+    if y == 'rating':
+        ax.set_ylim([3.5, 5])
+
+    fig.set_figheight(6)
+    fig.set_figwidth(15)
+    fig.tight_layout()
+    
+    plt.show()
+```
+
 2. What is the average rating for each room type on each neighbourhood?
+
+In our code, this is the call needed to generate a graphic response to this question:
+
+```python
+title = 'Rating by Room Type by Neighbourhood'
+y = 'rating'
+_plot_question_one_and_two(neighbourhoods, room_types, y, title, elegant_color_palette)
+```
 
 ![Rating by Room Type by Neighbourhood](./files/rating_by_room_type_by_neighbourhood.png)
 
+We can see the distribution of ratings by room type and neighbourhood throughout Copenhagen.
+
+```python
+def _plot_question_one_and_two(neighbourhoods: List[str], room_types: List[str], y: str, title: str, color_list: List[str]):
+    sns.set()
+
+    x = np.arange(len(neighbourhoods))
+    width = 0.20
+    normalized_room_types = normalize_str_list(room_types)
+
+    fig, ax = plt.subplots()
+    color_palette = iter(color_list)
+    _plot_bars(normalized_room_types, color_palette, [ax], x, width, y)
+
+    ax.set_title(title, fontsize = 14)
+    ax.set_xticks(x, neighbourhoods, rotation = 90, fontsize = 10)
+    ax.legend(loc='center left', bbox_to_anchor = (1, 0.5), fancybox = True, ncol = 1)
+    
+    if y == 'rating':
+        ax.set_ylim([3.5, 5])
+
+    fig.set_figheight(6)
+    fig.set_figwidth(15)
+    fig.tight_layout()
+    
+    plt.show()
+```
+
 3. What is the average occupancy for each room type on each neighbourhood?
-* * How does the occupancy relate with the pricing?
-* * How does the occupancy relate with the rating?
+    * How does the occupancy relate with the pricing?
+    * How does the occupancy relate with the rating?
+
+In our code, this is the call needed to generate a graphic response to this question:
+
+```python
+_plot_question_three(neighbourhoods, room_types, messi_color_palette)
+```
 
 ![Occupancy by Room Type by Neighbourhood](./files/occupancy_by_room_type_by_neighbourhood.png)
+
+We can see the distribution of occupancy by room type and neighbourhood throughout Copenhagen and how that correlates with the prices and ratings.
+
+```python
+def _plot_question_three(neighbourhoods: List[str], room_types: List[str], color_list: List[str]):
+    sns.set()
+
+    x = np.arange(len(neighbourhoods))
+    width = 0.20
+    normalized_room_types = normalize_str_list(room_types)
+
+    fig, axs = plt.subplots(1, 2)
+    twinxs = [axs[0].twinx(), axs[1].twinx()]
+    ytwinxs = ['price', 'rating']
+    color_palette = iter(color_list)
+    twinx_color = '#140b34'
+
+    _plot_bars(normalized_room_types, color_palette, [axs[0], axs[1]], x, width, 'occupancy')
+    _plot_scatters(normalized_room_types, twinx_color, twinxs, x, ytwinxs, width)
+    _plot_lines(neighbourhoods, normalized_room_types, twinx_color, twinxs, x, ytwinxs, width)
+
+    axs[0].set_title('Occupancy and Price', fontsize = 14)
+    axs[0].set_xticks(x, neighbourhoods, rotation = 90, fontsize = 10)
+    axs[0].legend(loc='center left', bbox_to_anchor = (1.1, 0.5), fancybox = True, ncol = 1)
+
+    axs[1].set_title('Occupancy and Rating', fontsize = 14)
+    axs[1].set_xticks(x, neighbourhoods, rotation = 90, fontsize = 10)
+
+    fig.set_figheight(6)
+    fig.set_figwidth(15)
+    fig.tight_layout()
+    
+    plt.show()
+```

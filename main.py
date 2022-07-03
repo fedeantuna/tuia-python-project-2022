@@ -48,9 +48,13 @@ def _display_menu(neighbourhoods: List[str], room_types: List[str]):
 
         match user_selection:
             case '1':
-                _plot_question_one_and_two(neighbourhoods, room_types, 'price', 'Price by Room Type by Neighbourhood', elegant_color_palette)
+                title = 'Price by Room Type by Neighbourhood'
+                y = 'price'
+                _plot_question_one_and_two(neighbourhoods, room_types, y, title, elegant_color_palette)
             case '2':
-                _plot_question_one_and_two(neighbourhoods, room_types, 'rating', 'Rating by Room Type by Neighbourhood', elegant_color_palette)
+                title = 'Rating by Room Type by Neighbourhood'
+                y = 'rating'
+                _plot_question_one_and_two(neighbourhoods, room_types, y, title, elegant_color_palette)
             case '3':
                 _plot_question_three(neighbourhoods, room_types, messi_color_palette)
             case '0':
