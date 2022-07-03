@@ -34,6 +34,8 @@ The dependencies needed for this project are listed in `requirements.txt`, to in
 
 While in the virtual environment, run `python main.py` depending on your system.
 
+To start the Jupyter Notebook run `jupyter-lab` and open the `notebook_es.ipynb` by double clicking on it.
+
 # Data structure to read (JSON):
 
 ```json
