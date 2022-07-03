@@ -216,7 +216,7 @@ def _plot_question_one_and_two(neighbourhoods: List[str], room_types: List[str],
     plt.show()
 ```
 
-2. What is the average rating for each room type on each neighbourhood?
+## What is the average rating for each room type on each neighbourhood?
 
 In our code, this is the call needed to generate a graphic response to this question:
 
@@ -256,7 +256,7 @@ def _plot_question_one_and_two(neighbourhoods: List[str], room_types: List[str],
     plt.show()
 ```
 
-3. What is the average occupancy for each room type on each neighbourhood?
+## What is the average occupancy for each room type on each neighbourhood?
     * How does the occupancy relate with the pricing?
     * How does the occupancy relate with the rating?
 
