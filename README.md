@@ -1,6 +1,6 @@
 # Set Up
 
-With Python 3.x installed, these are the steps to follow to set up the project.
+With Python 3.7.0 or greater installed, these are the steps to follow to set up the project.
 
 ## Virtual Environment
 
@@ -34,7 +34,7 @@ The dependencies needed for this project are listed in `requirements.txt`, to in
 
 While in the virtual environment, run `python main.py` depending on your system.
 
-To start the Jupyter Notebook run `jupyter-lab` and open the `notebook_es.ipynb` by double clicking on it.
+To start the Jupyter Notebook run `jupyter notebook` and open the `notebook_es.ipynb`.
 
 # Data structure to read (JSON):
 
