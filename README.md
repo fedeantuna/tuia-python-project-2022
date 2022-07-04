@@ -42,19 +42,19 @@ To start the Jupyter Notebook run `jupyter notebook` and open the `notebook_es.i
 {
     "neighbourhood_1": {
         "room_type_1": {
-            "availability_sum": <number>,
+            "occupied_sum": <number>,
             "price_sum": <number>,
             "rating_sum": <number>,
             "counter": <number>
         },
         "room_type_2": {
-            "availability_sum": <number>,
+            "occupied_sum": <number>,
             "price_sum": <number>,
             "rating_sum": <number>,
             "counter": <number>
         },
         "room_type_3": {
-            "availability_sum": <number>,
+            "occupied_sum": <number>,
             "price_sum": <number>,
             "rating_sum": <number>,
             "counter": <number>
@@ -62,19 +62,19 @@ To start the Jupyter Notebook run `jupyter notebook` and open the `notebook_es.i
     },
     "neighbourhood_2": {
         "room_type_1": {
-            "availability_sum": <number>,
+            "occupied_sum": <number>,
             "price_sum": <number>,
             "rating_sum": <number>,
             "counter": <number>
         },
         "room_type_2": {
-            "availability_sum": <number>,
+            "occupied_sum": <number>,
             "price_sum": <number>,
             "rating_sum": <number>,
             "counter": <number>
         },
         "room_type_3": {
-            "availability_sum": <number>,
+            "occupied_sum": <number>,
             "price_sum": <number>,
             "rating_sum": <number>,
             "counter": <number>
@@ -89,7 +89,7 @@ To start the Jupyter Notebook run `jupyter notebook` and open the `notebook_es.i
 # Data structure procesed (JSON):
 
 ```json
-{
+
     "neighbourhoods": [
         "neighbourhood_1",
         "neighbourhood_2",
@@ -173,7 +173,7 @@ To start the Jupyter Notebook run `jupyter notebook` and open the `notebook_es.i
     .
     .
     .
-}
+
 ```
 
 # Questions
@@ -209,14 +209,14 @@ def _plot_question_one_and_two(neighbourhoods: List[str], room_types: List[str],
     ax.set_title(title, fontsize = 14)
     ax.set_xticks(x, neighbourhoods, rotation = 90, fontsize = 10)
     ax.legend(loc='center left', bbox_to_anchor = (1, 0.5), fancybox = True, ncol = 1)
-    
+
     if y == 'rating':
         ax.set_ylim([3.5, 5])
 
     fig.set_figheight(6)
     fig.set_figwidth(15)
     fig.tight_layout()
-    
+
     plt.show()
 ```
 
@@ -251,14 +251,14 @@ def _plot_question_one_and_two(neighbourhoods: List[str], room_types: List[str],
     ax.set_title(title, fontsize = 14)
     ax.set_xticks(x, neighbourhoods, rotation = 90, fontsize = 10)
     ax.legend(loc='center left', bbox_to_anchor = (1, 0.5), fancybox = True, ncol = 1)
-    
+
     if y == 'rating':
         ax.set_ylim([3.5, 5])
 
     fig.set_figheight(6)
     fig.set_figwidth(15)
     fig.tight_layout()
-    
+
     plt.show()
 ```
 
@@ -304,6 +304,6 @@ def _plot_question_three(neighbourhoods: List[str], room_types: List[str], color
     fig.set_figheight(6)
     fig.set_figwidth(15)
     fig.tight_layout()
-    
+
     plt.show()
 ```
