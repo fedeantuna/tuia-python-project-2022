@@ -294,9 +294,13 @@ def _get_relative_distances(width: float, bars: List[str]):
     bar
     """
 
-    start = -0.5 * len(bars)
-
     positions = {}
+
+    if len(bars)%2 == 0:
+        start = -0.375 * len(bars)
+
+    else:    
+        start = -0.5 * len(bars)
 
     for idx, current_bar in enumerate(bars):
         positions[current_bar] = (start + idx) * width
